@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js" integrity="sha512-YcsIPGdhPK4P/uRW6/sruonlYj+Q7UHWeKfTAkBW+g83NKM+jMJFJ4iAPfSnVp7BKD4dKMHmVSvICUbE/V1sSw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="manifest" href="manifest.json">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,300;1,400;1,500;1,600;1,700&display=swap');
+/* Global settings */
+* {
+	margin: 0;
+	padding: 0;
+}
+:root {
+	--main-blue: #4FC3F7;
+}
+.input-form * {
+	font-family: 'Poppins', sans-serif;
+}
+#exportPdf * {
+	font-family: 'Roboto Mono', monospace;
+}
+/* input form */
+.input-form {
+	display: flex;
+	flex-direction: column;
+	gap: .5rem;
+	padding: .5rem;
+}
+/* input fields */
+.input-container {
+  display: -ms-flexbox; /* IE10 */
+  display: flex;
+  width: 100%;
+  border: 1px solid var(--main-blue);
+}
+/* input icons */
+.icon {
+	width: 1.5rem;
+	background-color: var(--main-blue);
+	padding: .3rem;
+}
+/* input tag style */
+.input {
+	width: 100%;
+	padding: .3rem;
+	margin: 0 .2rem 0 0;
+	border: none;
+	font-weight: bold;
+}
+/* input type date */
+input[type=date] {
+	background-color: transparent;
+}
+/* input type select */
+.sex {
+	border: none;
+	width: 100%;
+	background-color: transparent;
+	font-weight: bold;
+}
+.sex:focus,
+.input:focus {
+	outline: none;
+}
+/* multi input box */
+.multi-box {
+	display: flex;
+	justify-content: space-between;
+	width: 100%;
+	gap: .8rem;
+}
+.multi-box div {
+	width: 50%;
+}
+.multi-box div input {
+	width: 100%;
+	/*padding: .5rem;*/
+}
+/* buttons style */
+.previewButton {
+	padding: .55rem;
+	background-color: var(--main-blue);
+	color: #fff;
+	font-weight: bold;
+	border: none;
+}
+.resetButton {
+	padding: .5rem;
+	border: 0px solid var(--main-blue);
+	background-color: transparent;
+	font-weight: bold;
+	color: var(--main-blue);
+}
+.downloadButton {
+	background-color: rgba(79, 194, 247, .85);
+	padding: .5rem;
+	border-radius: 99px;
+	height: 3rem;
+	width: 3rem;
+	position: fixed;
+    bottom: 1rem;
+    right: 1rem;
+    border: none;
+    background-image: url("./download.png");
+    background-size: 50%;
+    background-position: center center;
+    box-shadow: 1px 2px 5px rgba(0,0,0,.5);
+    background-repeat: no-repeat;
+}
+/* input placeholder style */
+::placeholder {
+	font-weight: bold;
+}
+/* export pdf */
+#exportPdf {
+	margin: .5rem;
+	border: 1.3px solid rgba(0,0,0,.5);
+}
+/* legal padding method */
+.head div,
+.main table {
+	padding: .5rem;
+}
+/* head */
+.head {
+	display: flex;
+	width: 100%;
+	justify-content: space-between;
+	background-image: url('./head.jpg');
+	background-size: cover;
+	background-repeat: no-repeat;
+}
+.left-head img {
+	width: 50%;
+}
+.right-head {
+	text-align: right;
+}
+/* main style */
+.main {
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	border-top: 1.8px dashed rgba(0,0,0,.5);
+	border-bottom: 1.8px dashed rgba(0,0,0,.5);
+}
+/* capital text */
+#nameOutput,
+#testnameOutput,
+#unitOutput,
+#rangeOutput,
+#resultOutput,
+#prefedOutput,
+#remarkOutput {
+	text-transform: capitalize;
+}
+.mainTable tr td:nth-child(1) {
+	font-weight: bold;
+	text-align: right;
+}
+.mainTable tr td:nth-child(2) {
+	padding-left: 3rem;
+}
+/* report table style */
+.reportTable {
+	width: 100%;
+	border-collapse:collapse;
+	height: 20vh;
+	background-image: url('./logo.icon.jpg');
+	background-size: cover;
+	background-repeat: no-repeat;
+}
+.reportTable caption {
+	margin: .5rem;
+	font-weight: bold;
+}
+.reportTable th {
+	border-top:2px solid var(--main-blue);
+	border-bottom:2px solid var(--main-blue);
+	padding: .5rem;
+	background-color: rgba(79, 194, 247, .4);
+}
+.reportTable td {
+	padding: .5rem;
+	/*border-left: 1px dashed #000;*/
+	/*border-bottom: 1px solid #000;*/
+	text-align: center;
+	vertical-align: top;
+}
+.reportTable td:nth-child(1) {
+	border-left: none;
+	vertical-align: top;
+	text-align: left;
+}
+.end {
+	text-align: center;
+	font-size: .9rem;
+	color: rgba(0,0,0,.7);
+}
+.footer {
+	padding: 1rem 0 .1rem .2rem;
+	font-size: .5em;
+}
+/* mobile view for small divice */
+@media only screen and (max-width: 600px) {
+	.head, .mainTable, .reportTable {
+		font-size: .7em;
+     }
+     .mainTable tr td:nth-child(2) {
+     	padding-left: 2rem;
+     }
+}
+</style>
+</head>
+<body>
+<!-- data input section -->
+<div class="input-form">
+	
+	<h3>Basic Details</h3>
+	<!-- name -->
+	<div class="input-container">
+		<img src="./user.png" class="icon">
+		<input type="text" placeholder="Name" id="name" class="input">
+    </div>
+    <!-- sex and age -->
+    <div class="multi-box">
+    <div class="input-container">
+		<img src="./age.png" class="icon">
+		<input type="number" placeholder="Age" id="age" class="input">
+    </div>
+    <div class="input-container">
+		<img src="./sex.png" class="icon">
+		<select id="sex" class="sex">
+			<option value="Male">MALE</opation>
+			<option value="Female">FEMALE</opation>
+			<option value="Other">OTHER</opation>
+		</select>
+    </div>
+    </div>
+    <!-- sample id -->
+    <div class="input-container">
+		<img src="./sampleid.png" class="icon">
+		<input type="number" placeholder="Sample ID" id="sampleid" class="input">
+    </div>
+    <!-- sample and report date -->
+    <div class="multi-box"><div>Sample Date:</div><div>Report Date:</div></div>
+    <div class="multi-box">
+    <div class="input-container">
+		<img src="./calendar.png" class="icon">
+		<input type="date" id="sampledate" class="input">
+    </div>
+    <div class="input-container">
+		<img src="./email.png" class="icon">
+		<input type="date" id="reportdate" class="input">
+    </div>
+    </div>
+    <!-- other details -->
+    	
+    <h3>Other Details</h3>
+    <!-- self or by doctor -->
+    <div class="input-container">
+		<img src="./doctor.png" class="icon">
+		<input type="text" id="prefed" placeholder="Doctor or Self" class="input">
+    </div>
+    <!-- remarks -->
+    <div class="input-container">
+		<img src="./remark.png" class="icon">
+		<input type="text" id="remark" placeholder="Sanjeevani Hospital, Lucknow U.P" class="input">
+    </div>
+    
+    <!-- test result -->
+    <h3>Test Result</h3>
+    <!-- testname -->
+    <div class="input-container">
+		<img src="./pen.png" class="icon">
+		<input type="text" id="testname" placeholder="Test Name" class="input">
+    </div>
+    <!-- unit -->
+    <div class="input-container">
+		<img src="./unit.png" class="icon">
+		<input type="text" id="unit" placeholder="Unit" class="input">
+    </div>
+    <!-- range -->
+    <div class="input-container">
+		<img src="./range.png" class="icon">
+		<input type="text" id="range" placeholder="Range" class="input">
+    </div>
+    <!-- result -->
+   <div class="input-container">
+		<img src="./result.png" class="icon">
+		<input type="text" id="result" placeholder="Result" class="input">
+    </div>
+    <!-- preview button -->
+    <input type="button" onclick="genReport()" value="Preview Report" class="previewButton">
+    <input type="button" onclick="window.location.reload()" value="Clear Report" class="resetButton">
+    
+</div><!-- data input section end -->
+
+<!-- exportPdf -->
+<div id="exportPdf">
+
+<!-- head -->
+<div class="head">
+	<!-- logo address etc -->
+	<div class="left-head">
+		<img src="./logo.jpg" alt="logo"><br><br>
+		278/8 Rama Plaza<br>
+		Near PNB Bank, Ayodhya<br>
+		Uttar Pradesh - 224001<br>
+		<b>+91 99000 99000</b><br>
+		<b>contact@orginalpath.in</b><br>
+    </div>
+    <div class="right-head">
+    	<b>Prefer By:</b><br>
+        <span id="prefedOutput">Dr. Ravikant Shukla</span><br>
+        <span id="remarkOutput">Sanjeevani Hospital, Bhopal</span>
+    </div>
+</div><!-- head end -->
+
+<!-- main -->
+<div class="main">
+	    <table class="mainTable">
+    <tbody>
+    <tr>
+        <td>Name:</td>
+        <td id="nameOutput">Amit</td>
+    </tr>
+    <tr>
+        <td>Sex:</td>
+        <td id="sexOutput">Male</td>
+    </tr>
+    <tr>
+        <td>Age:</td>
+        <td><span id="ageOutput">21</span> Y</td>
+    </tr>
+    </tbody>
+    </table>
+    
+     <table class="mainTable">
+    <tbody>
+    <tr>
+        <td>Report ID:</td>
+        <td id="sampleidOutput">001</td>
+    </tr>
+    <tr>
+        <td>Sample Collection Date:</td>
+        <td id="sampledateOutput">18/08/2022</td>
+    </tr>
+    <tr>
+        <td>Report Released Date:</td>
+        <td id="reportdateOutput">19/08/2022</td>
+    </tr>
+    </tbody>
+    </table>
+</div><!-- main end -->
+	
+<!-- report result -->
+<div class="report">
+    <table class="reportTable">
+    <caption>Final Report</caption>
+    <thead>
+    <tr>
+        <th>Test Name</th>
+        <th>Unit</th>
+        <th>Result</th>
+        <th>Range</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td id="testnameOutput">Testname</td>
+        <td id="unitOutput">Unit</td>
+        <td id="resultOutput">Result</td>
+        <td id="rangeOutput">Range</td>
+    </tr>
+    </tbody>
+</table>
+</div><!-- report result end -->
+	
+<h3 class="end">END OF REPORT</h3>
+<!-- footer -->
+<div class="footer">
+<span>May God bless you with a long and healthy life.</span><br>
+<p>
+	Terms & Conditions 
+</p>
+</div>
+</div><!-- exportPdf end -->
+	
+<!-- download button -->
+<input type="button" onclick='exportPdf()' class="downloadButton">
+
+<script>
+function genReport() {
+    var name = document.getElementById('name').value;
+    var age = document.getElementById('age').value;
+    var sex = document.getElementById('sex').value;
+    var sampleid = document.getElementById('sampleid').value;
+    var sampledate = document.getElementById('sampledate').value;
+    var reportdate = document.getElementById('reportdate').value;
+    var prefed = document.getElementById('prefed').value;
+    var remark = document.getElementById('remark').value;
+    var testname = document.getElementById('testname').value;
+    var unit = document.getElementById('unit').value;
+    var result = document.getElementById('result').value;
+    var range = document.getElementById('range').value;
+
+    document.getElementById("nameOutput").innerHTML = name;
+    document.getElementById("ageOutput").innerHTML = age;
+    document.getElementById("sexOutput").innerHTML = sex;
+    document.getElementById("sampleidOutput").innerHTML = sampleid;
+    document.getElementById("sampledateOutput").innerHTML = sampledate;
+    document.getElementById("reportdateOutput").innerHTML = reportdate;
+    document.getElementById("prefedOutput").innerHTML = prefed;
+    document.getElementById("remarkOutput").innerHTML = remark;
+    document.getElementById("testnameOutput").innerHTML = testname;
+    document.getElementById("unitOutput").innerHTML = unit;
+    document.getElementById("resultOutput").innerHTML = result;
+    document.getElementById("rangeOutput").innerHTML = range;
+}
+</script>
+<script>
+function exportPdf() {
+var element = document.getElementById('exportPdf');
+var opt = {
+  margin:       0.1,
+  filename:     'report.pdf',
+  image:        { type: 'jpeg', quality: 1 },
+  html2canvas:  { scale: 5 },
+   jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+   };
+   // New Promise-based usage:
+  html2pdf().set(opt).from(element).save();
+
+   // Old monolithic-style usage:
+   //html2pdf(element, opt); 
+}
+</script>
+</body>
+</html>
